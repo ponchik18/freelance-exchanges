@@ -11,22 +11,40 @@
     <groupId>com.bsuir</groupId>
     <artifactId>freelance-exchanges</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>freelance-exchanges</name>
     <description>freelance-exchanges</description>
+    <modules>
+        <module>edge-service</module>
+        <module>discovery-service</module>
+        <module>notification-service</module>
+        <module>job-service</module>
+        <module>chat-service</module>
+        <module>customer-service</module>
+        <module>freelancer-service</module>
+        <module>payment-service</module>
+        <module>rating-service</module>
+    </modules>
     <properties>
         <java.version>17</java.version>
+        <yml.version>2.0</yml.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${yml.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
