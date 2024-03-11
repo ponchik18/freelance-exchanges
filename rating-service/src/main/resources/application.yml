@@ -1,0 +1,31 @@
+server:
+  port: 9002
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: rating-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  datasource:
+    password: admin
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=rating_service
+    username: admin
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/main-change-log.yml
+    user: admin
+    password: admin
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=rating_service

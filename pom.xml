@@ -46,7 +46,6 @@
             <artifactId>snakeyaml</artifactId>
             <version>${yml.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

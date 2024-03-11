@@ -1,25 +1,24 @@
 package com.bsuir.exception;
 
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.bsuir.constant.CustomerServiceConstant.Validation.Message.NOT_VALID_FILED;
+import static com.bsuir.constant.RatingServiceConstant.Validation.Message.NOT_VALID_FILED;
 
 @RestControllerAdvice
-public class CustomerExceptionHandler {
+public class RatingExceptionHandler {
 
-    @ExceptionHandler({CustomerNotFoundException.class, ChangeSetPersister.NotFoundException.class})
+    @ExceptionHandler({RatingNotFoundException.class, NoHandlerFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessageResponse handeNotFoundException(Exception exception) {
         return ErrorMessageResponse.builder()
@@ -29,9 +28,9 @@ public class CustomerExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(WebExchangeBindException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationErrorResponse handleValidationExceptions(WebExchangeBindException  ex) {
+    public ValidationErrorResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -46,9 +45,9 @@ public class CustomerExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
+    @ExceptionHandler(DuplicateRatingException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorMessageResponse handleDuplicateKeyException(DuplicateKeyException exception) {
+    public ErrorMessageResponse handleDuplicateKeyException(Exception exception) {
         return ErrorMessageResponse.builder()
                 .statusCode(HttpStatus.CONFLICT.value())
                 .timestamp(new Date())
@@ -65,4 +64,5 @@ public class CustomerExceptionHandler {
                 .message(exception.getMessage())
                 .build();
     }
+
 }
