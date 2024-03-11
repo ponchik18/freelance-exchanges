@@ -1,0 +1,23 @@
+server:
+  port: 9001
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  servlet:
+    context-path: /api/v1
+spring:
+  application:
+    name: customer-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  r2dbc:
+    username: admin
+    password: admin
+    url: r2dbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
+  liquibase:
+    enabled: true
+    change-log: classpath:db/main-change-log.yml
+    user: admin
+    password: admin
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
