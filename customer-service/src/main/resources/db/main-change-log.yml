@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: customer-service-db-init
+      author: maksim
+      changes:
+        - tagDatabase:
+            tag: db-init
+  - include:
+      file: db/versions/v-1.0/table-customer-change-log.yml
+  - changeSet:
+      id: customer-service-create-tables
+      author: maksim
+      changes:
+        - tagDatabase:
+            tag: v-1.0
