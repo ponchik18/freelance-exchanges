@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-rating-table
+      author: admin
+      changes:
+        - createTable:
+            tableName: ratings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: review
+                  type: TEXT
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: rating
+                  type: int
+              - column:
+                  name: from_user
+                  type: VARCHAR(255)
+              - column:
+                  name: to_user
+                  type: VARCHAR(255)
+      rollback:
+        - dropTable:
+            tableName: ratings

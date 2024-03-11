@@ -12,7 +12,7 @@ public interface CustomerServiceConstant {
         String DUPLiCATE_EMAIL = "Пользовать с email '%s' уже зарегистрирован!";
     }
     interface DefaultValue {
-        int PAGE = 1;
+        int PAGE = 0;
         int ELEMENT_PER_PAGE = 10;
     }
 }
