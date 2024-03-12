@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: freelancer-service-db-init
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: db-init
+  - include:
+      file: db/versions/v-1.0/table-freelancer-change-log.yml
+  - changeSet:
+      id: freelancer-service-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-1.0
+  - include:
+      file: db/versions/v-2.0/table-resume-change-log.yml
+  - changeSet:
+      id: freelancer-resume-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-2.0
