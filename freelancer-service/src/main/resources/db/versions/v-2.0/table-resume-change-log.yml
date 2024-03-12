@@ -18,7 +18,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_resume_freelancer
-                    references: freelancer(id)
+                    references: freelancers(id)
               - column:
                   name: resume_name
                   type: VARCHAR(255)
