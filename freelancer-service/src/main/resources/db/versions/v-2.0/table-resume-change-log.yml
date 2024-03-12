@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-resume-table
+      author: admin
+      changes:
+        - createTable:
+            tableName: resumes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: freelancer_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_resume_freelancer
+                    references: freelancers(id)
+              - column:
+                  name: resume_name
+                  type: VARCHAR(255)
+              - column:
+                  name: resume_content
+                  type: TEXT
+      rollback:
+        - dropTable:
+            tableName: resumes
