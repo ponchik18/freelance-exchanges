@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ResumeMapper {
 
+    @Mapping(target = "freelancerId", source = "freelancer.id")
     ResumeResponse toDto(Resume resume);
 
     List<ResumeResponse> toListOfDto(List<Resume> resumeList);
