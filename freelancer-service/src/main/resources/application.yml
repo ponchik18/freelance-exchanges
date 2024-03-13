@@ -29,3 +29,10 @@ spring:
     user: admin
     password: admin
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=freelance_service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka
+    fetch-registry: true
+    register-with-eureka: true
