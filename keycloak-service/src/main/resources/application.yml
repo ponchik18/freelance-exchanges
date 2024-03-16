@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: 8999
   shutdown: graceful
   netty:
     connection-timeout: 2s
@@ -14,27 +14,9 @@ spring:
           issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
-    name: rating-service
+    name: keycloak-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
-  datasource:
-    password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=rating_service
-    username: admin
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
-  liquibase:
-    enabled: true
-    change-log: classpath:db/main-change-log.yml
-    user: admin
-    password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=rating_service
 
 eureka:
   client:
@@ -42,6 +24,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+keycloak:
+  realm: freelance-exchange
+  clientId: freelance-rest-api
+  clientSecret: FKeMnCc6yQWd6w2LK0mhte17Qv4IgNUU
+  urls:
+    auth: http://localhost:8080/auth/
 
 jwt:
   auth:

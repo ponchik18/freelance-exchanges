@@ -7,6 +7,12 @@ server:
   servlet:
     context-path: /api
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
     name: freelancer-service
   lifecycle:
@@ -36,3 +42,11 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+jwt:
+  auth:
+    converter:
+      principal-attribute:
+        preferred_username
+      resource-id:
+        freelance-rest-api
