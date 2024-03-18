@@ -1,0 +1,52 @@
+server:
+  port: 9004
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  servlet:
+    context-path: /api
+spring:
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+#          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  application:
+    name: job-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  datasource:
+    password: admin
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=job_service
+    username: admin
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/main-change-log.yml
+    user: admin
+    password: admin
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=job_service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+jwt:
+  auth:
+    converter:
+      principal-attribute:
+        preferred_username
+      resource-id:
+        freelance-rest-api
