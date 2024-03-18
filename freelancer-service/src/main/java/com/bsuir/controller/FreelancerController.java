@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class FreelancerController {
     }
 
     @GetMapping("{id}")
-    public FreelancerResponse getFreelancerById(@PathVariable long id) {
+    public FreelancerResponse getFreelancerById(@PathVariable String id) {
         Freelancer freelancer = freelancerService.getById(id);
         return freelancerMapper.toDto(freelancer);
     }
@@ -48,7 +49,7 @@ public class FreelancerController {
     }
 
     @PutMapping("{id}")
-    public FreelancerResponse updateFreelancer(@PathVariable long id, @RequestBody @Valid FreelancerUpdateRequest freelancerUpdateRequest) {
+    public FreelancerResponse updateFreelancer(@PathVariable String id, @RequestBody @Valid FreelancerUpdateRequest freelancerUpdateRequest) {
         Freelancer freelancer = freelancerMapper.toEntityWhenUpdate(freelancerUpdateRequest);
         Freelancer updatedFreelancer = freelancerService.update(id, freelancer);
         return freelancerMapper.toDto(updatedFreelancer);

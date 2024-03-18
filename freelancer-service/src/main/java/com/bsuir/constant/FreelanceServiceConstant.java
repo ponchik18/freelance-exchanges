@@ -9,7 +9,8 @@ public interface FreelanceServiceConstant {
     }
     interface Error {
         String RESUME_NOT_FOUND = "Резюме с '%d' не найден!";
-        String FREELANCER_NOT_FOUND = "Исполнитель с '%d' не найден!";
+        String FREELANCER_WITH_NOT_FOUND = "Исполнитель с '%s' не найден!";
+        String FREELANCER_NOT_FOUND = "Исполнитель не найден!";
         String DUPLiCATE_EMAIL = "Пользовать с email '%s' уже зарегистрирован!";
     }
     interface DefaultValue {

@@ -8,7 +8,7 @@ public interface CustomerServiceConstant {
         }
     }
     interface Error {
-        String CUSTOMER_NOT_FOUND = "Заказчик с '%d' не найден!";
+        String CUSTOMER_NOT_FOUND = "Заказчик с '%s' не найден!";
         String DUPLiCATE_EMAIL = "Пользовать с email '%s' уже зарегистрирован!";
     }
     interface DefaultValue {

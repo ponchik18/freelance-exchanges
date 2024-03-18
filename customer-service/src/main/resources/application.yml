@@ -7,6 +7,12 @@ server:
   servlet:
     context-path: /api
 spring:
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
     name: customer-service
   lifecycle:
@@ -21,10 +27,19 @@ spring:
     user: admin
     password: admin
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
-
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+jwt:
+  auth:
+    converter:
+      principal-attribute:
+        preferred_username
+      resource-id:
+        freelance-rest-api

@@ -18,7 +18,7 @@ public class FreelancerService {
 
     public void validateExistById(long id) {
         if (!freelancerRepository.existsById(id)) {
-            throw new FreelancerNotFoundException(id);
+            throw new FreelancerNotFoundException();
         }
     }
 
@@ -28,8 +28,8 @@ public class FreelancerService {
         return freelancerRepository.findAll(pageable);
     }
 
-    public Freelancer getById(long id) {
-        return freelancerRepository.findById(id)
+    public Freelancer getById(String id) {
+        return freelancerRepository.findByUserId(id)
                 .orElseThrow(() -> new FreelancerNotFoundException(id));
     }
 
@@ -42,9 +42,9 @@ public class FreelancerService {
         return freelancerRepository.save(createdFreelancer);
     }
 
-    public Freelancer update(long id, Freelancer updatedFreelancer) {
+    public Freelancer update(String id, Freelancer updatedFreelancer) {
         String email = updatedFreelancer.getEmail();
-        freelancerRepository.findByEmailAndIdNot(email, id)
+        freelancerRepository.findByEmailAndUserIdNot(email, id)
                 .ifPresent(existingFreelancer -> {
                     throw new DuplicateEmailException(email);
                 });

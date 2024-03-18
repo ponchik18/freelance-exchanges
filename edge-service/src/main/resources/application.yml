@@ -7,6 +7,20 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: keycloak
+            client-id: freelance-rest-api
+            client-secret: FKeMnCc6yQWd6w2LK0mhte17Qv4IgNUU
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
   main:
     web-application-type:
       reactive
@@ -28,5 +42,10 @@ spring:
           uri: lb://RATING-SERVICE
           predicates:
             - Path=/api/ratings/**
+        - id: keycloak-service
+          uri: lb://KEYCLOAK-SERVICE
+          predicates:
+            - Path=/api/users/**
       default-filters:
+        - name: TokenRelay
         - name: SaveSession
