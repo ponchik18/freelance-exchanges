@@ -39,12 +39,12 @@ public class CustomerService {
                 .then(customerRepository.save(customerMapper.toEntity(customerCreateRequest)));
     }
 
-    public Mono<Customer> getCustomerById(long id) {
-        return customerRepository.findById(id)
+    public Mono<Customer> getCustomerById(String id) {
+        return customerRepository.findByUserId(id)
                 .switchIfEmpty(Mono.error(new CustomerNotFoundException(id)));
     }
 
-    public Mono<Customer> updateCustomer(long id, CustomerUpdateRequest customerUpdateRequest) {
+    public Mono<Customer> updateCustomer(String id, CustomerUpdateRequest customerUpdateRequest) {
         return getCustomerById(id)
                 .flatMap(existingCustomer -> {
                     if (!existingCustomer.getEmail().equals(customerUpdateRequest.getEmail())) {
@@ -57,9 +57,9 @@ public class CustomerService {
                 .flatMap(existingCustomer -> customerRepository.save(updateAfterValidate(existingCustomer, customerUpdateRequest)));
     }
 
-    private Function<Customer, Mono<? extends Customer>> validateDuplicateEmail(long id, Customer existingCustomer) {
+    private Function<Customer, Mono<? extends Customer>> validateDuplicateEmail(String id, Customer existingCustomer) {
         return customerWithEmail -> {
-            if (!customerWithEmail.getId().equals(id)) {
+            if (!customerWithEmail.getUserId().equals(id)) {
                 return Mono.error(new DuplicateEmailException(customerWithEmail.getEmail()));
             }
             return Mono.just(existingCustomer);

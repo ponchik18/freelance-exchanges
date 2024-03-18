@@ -35,7 +35,7 @@ public class FreelancerController {
     }
 
     @GetMapping("{id}")
-    public FreelancerResponse getFreelancerById(@PathVariable long id) {
+    public FreelancerResponse getFreelancerById(@PathVariable String id) {
         Freelancer freelancer = freelancerService.getById(id);
         return freelancerMapper.toDto(freelancer);
     }
@@ -49,7 +49,7 @@ public class FreelancerController {
     }
 
     @PutMapping("{id}")
-    public FreelancerResponse updateFreelancer(@PathVariable long id, @RequestBody @Valid FreelancerUpdateRequest freelancerUpdateRequest) {
+    public FreelancerResponse updateFreelancer(@PathVariable String id, @RequestBody @Valid FreelancerUpdateRequest freelancerUpdateRequest) {
         Freelancer freelancer = freelancerMapper.toEntityWhenUpdate(freelancerUpdateRequest);
         Freelancer updatedFreelancer = freelancerService.update(id, freelancer);
         return freelancerMapper.toDto(updatedFreelancer);

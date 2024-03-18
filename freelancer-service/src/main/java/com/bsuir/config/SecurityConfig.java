@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -23,6 +24,7 @@ public class SecurityConfig {
                     try {
                         req.requestMatchers("/actuator/health/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/freelancers/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/freelancers").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/resumes/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
@@ -36,5 +38,36 @@ public class SecurityConfig {
                 });
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+
+        return (web) -> {
+            web.ignoring().requestMatchers(
+                    HttpMethod.POST,
+                    "/public/**",
+                    "/freelancers"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.GET,
+                    "/public/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.DELETE,
+                    "/public/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.PUT,
+                    "/public/**"
+            );
+            web.ignoring().requestMatchers(
+                            HttpMethod.OPTIONS,
+                            "/**"
+                    )
+                    .requestMatchers("/v3/api-docs/**", "/configuration/**", "/swagger-ui/**",
+                            "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**");
+
+        };
     }
 }

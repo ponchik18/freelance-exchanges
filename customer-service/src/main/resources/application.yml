@@ -9,10 +9,10 @@ server:
 spring:
   security:
     oauth2:
-      resourceserver:
+      resource-server:
         jwt:
           issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
     name: customer-service
   lifecycle:
@@ -27,7 +27,8 @@ spring:
     user: admin
     password: admin
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
-
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   client:
     serviceUrl:

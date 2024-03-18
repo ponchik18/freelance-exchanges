@@ -31,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping("{id}")
-    public Mono<Customer> getCustomerById(@PathVariable long id) {
+    public Mono<Customer> getCustomerById(@PathVariable String id) {
         return customerService.getCustomerById(id);
     }
 
@@ -42,7 +42,7 @@ public class CustomerController {
     }
 
     @PutMapping("{id}")
-    public Mono<Customer> updateCustomer(@RequestBody @Valid CustomerUpdateRequest customerUpdateRequest, @PathVariable long id) {
+    public Mono<Customer> updateCustomer(@RequestBody @Valid CustomerUpdateRequest customerUpdateRequest, @PathVariable String id) {
         return customerService.updateCustomer(id, customerUpdateRequest);
     }
 }
