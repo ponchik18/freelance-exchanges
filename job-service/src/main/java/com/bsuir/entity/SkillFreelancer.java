@@ -21,7 +21,7 @@ public class SkillFreelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long freelancerId;
+    private String freelancerId;
     @ManyToOne
     private Skill skill;
 }

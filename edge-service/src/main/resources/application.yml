@@ -46,6 +46,10 @@ spring:
           uri: lb://KEYCLOAK-SERVICE
           predicates:
             - Path=/api/users/**
+        - id: job-service
+          uri: lb://JOB-SERVICE
+          predicates:
+            - Path=/api/proposals/**, /api/skills/**, /api/jobs/**
       default-filters:
         - name: TokenRelay
         - name: SaveSession

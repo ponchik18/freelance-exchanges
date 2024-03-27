@@ -31,7 +31,7 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
+    private String customerId;
     private String title;
     private String description;
     @CreationTimestamp

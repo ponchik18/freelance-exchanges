@@ -27,8 +27,9 @@ public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long freelancerId;
+    private String freelancerId;
     private BigDecimal suggestedBudget;
+    private String coveringLetter;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @Enumerated(EnumType.STRING)

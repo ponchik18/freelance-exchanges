@@ -27,7 +27,7 @@ public class KeycloakController {
     private final KeycloakService keycloakService;
 
     @GetMapping
-    public UserRepresentation getUserById(Principal principal) {
+    public UserRepresentation getUser(Principal principal) {
         String username = principal.getName();
         return keycloakService.getUserByUsername(username);
     }
