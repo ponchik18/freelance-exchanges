@@ -1,7 +1,5 @@
-package util;
+package com.bsuir.exception;
 
-import com.bsuir.exception.ErrorMessageResponse;
-import com.bsuir.exception.ResourceNotFoundException;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import reactor.core.publisher.Mono;
 

@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: job-service-db-init
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: db-init
+  - include:
+      file: db/versions/v-1.0/table-skills-change-log.yml
+  - changeSet:
+      id: skill-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-1.0
+  - include:
+      file: db/versions/v-2.0/table-skills_freelancers-change-log.yml
+  - changeSet:
+      id: skills_freelancers-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-2.0
+  - include:
+      file: db/versions/v-3.0/table-jobs-change-log.yml
+  - changeSet:
+      id: jobs-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-4.0
+  - include:
+      file: db/versions/v-4.0/table-skills_jobs-change-log.yml
+  - changeSet:
+      id: skills_jobs-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-3.0
+  - include:
+      file: db/versions/v-5.0/table-proposals-change-log.yml
+  - changeSet:
+      id: proposals-create-tables
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-5.0
+  - include:
+      file: db/versions/v-6.0/add-column-covering-letter-to-proposals-table-change-log.yml
+  - changeSet:
+      id: proposals-add-column-covering-letter
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-6.0

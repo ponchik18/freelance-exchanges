@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-proposals-table
+      author: admin
+      changes:
+        - createTable:
+            tableName: proposals
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: job_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_job_proposals
+                    references: jobs(id)
+              - column:
+                  name: freelancer_id
+                  type: VARCHAR(255)
+              - column:
+                  name: suggested_budget
+                  type: decimal(12,3)
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+      rollback:
+        - dropTable:
+            tableName: proposals
