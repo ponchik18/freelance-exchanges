@@ -8,21 +8,23 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
-                  name: skill_id
-                  type: bigint
+                  name: user_id
+                  type: VARCHAR(255)
+              - column:
+                  name: paypal_email
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_skills_freelancers
-                    references: skills(id)
               - column:
-                  name: freelancer_id
-                  type: VARCHAR(255)
-
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
       rollback:
         - dropTable:
             tableName: skills_freelancers
