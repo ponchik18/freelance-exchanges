@@ -7,12 +7,12 @@ server:
   servlet:
     context-path: /api
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+#          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
     name: payment-service
   lifecycle:
@@ -50,3 +50,8 @@ jwt:
         preferred_username
       resource-id:
         freelance-rest-api
+
+paypal:
+  client-id: ASDtv_bzjGpvU2yzuDvSYQdLWXZa7uEY51mwydtTk0eSuXbPq9vkYdqbPUVQuNkZ9SHTcRnfKUkw__8R
+  client-secret: EHqtIsB2P3QEY1mvS86qTd8kPEmgHJLxelhoLAYfGIBoENrW6MkILdT56j0HPolElNXd46nB9qXnsoL7
+  mode: sandbox
