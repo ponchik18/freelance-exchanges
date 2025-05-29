@@ -7,34 +7,34 @@ server:
   servlet:
     context-path: /api
 spring:
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
-#          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   application:
     name: payment-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
   datasource:
     password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment_service
+    url: jdbc:postgresql://localhost:5432/payment_service
     username: admin
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-  liquibase:
-    enabled: true
-    change-log: classpath:db/main-change-log.yml
-    user: admin
-    password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment_service
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:db/main-change-log.yml
+#    user: admin
+#    password: admin
+#    url: jdbc:postgresql://localhost:5432/payment_service
 
 eureka:
   client:

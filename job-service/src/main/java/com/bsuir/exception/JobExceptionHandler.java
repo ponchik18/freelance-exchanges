@@ -22,7 +22,7 @@ public class JobExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessageResponse handeNotFoundException(Exception exception) {
         return ErrorMessageResponse.builder()
-                .statusCode(HttpStatus.NO_CONTENT.value())
+                .statusCode(HttpStatus.NOT_FOUND.value())
                 .timestamp(new Date())
                 .message(exception.getMessage())
                 .build();
@@ -45,7 +45,7 @@ public class JobExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(JobHasAlreadyClosedException.class)
+    @ExceptionHandler({JobHasAlreadyClosedException.class, DuplicateProposalException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorMessageResponse handleDuplicateKeyException(Exception exception) {
         return ErrorMessageResponse.builder()

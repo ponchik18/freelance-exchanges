@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,6 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "jobs")
+@Builder
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +41,7 @@ public class Job {
     private BigDecimal budget;
     @Enumerated(EnumType.STRING)
     private JobStatus status;
+    private String jobReference;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "skills_jobs",
@@ -48,4 +51,8 @@ public class Job {
     private List<Skill> skills;
     @OneToMany(mappedBy = "job")
     private List<Proposal> proposals;
+
+    public Job(long l) {
+        this.id = l;
+    }
 }

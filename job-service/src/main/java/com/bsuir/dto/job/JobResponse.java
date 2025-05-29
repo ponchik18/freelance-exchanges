@@ -24,7 +24,8 @@ public class JobResponse {
     private String description;
     private LocalDateTime createdAt;
     private BigDecimal budget;
-    private String jobStatus;
+    private JobStatus jobStatus;
+    private String jobReference;
     private List<SkillResponse> skills;
     private List<ProposalResponse> proposals;
 }

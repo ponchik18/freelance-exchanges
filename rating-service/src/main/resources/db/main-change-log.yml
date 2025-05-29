@@ -13,3 +13,11 @@ databaseChangeLog:
       changes:
         - tagDatabase:
             tag: v-1.0
+  - include:
+      file: db/versions/v-2.0/table-rating-add-job-id-change-log.yml
+  - changeSet:
+      id: rating-add_job_id-column
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-1.0

@@ -12,6 +12,10 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         ErrorMessageResponse message;
+        System.out.println(response);
+        if (response.body() != null) {
+            return new Exception(response.toString());
+        }
         try (InputStream bodyIs = response.body().asInputStream()) {
             ObjectMapper mapper = new ObjectMapper();
             message = mapper.readValue(bodyIs, ErrorMessageResponse.class);

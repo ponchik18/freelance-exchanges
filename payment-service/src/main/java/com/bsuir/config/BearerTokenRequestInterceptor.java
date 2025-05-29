@@ -19,6 +19,10 @@ public class BearerTokenRequestInterceptor implements RequestInterceptor {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof JwtAuthenticationToken jwtAuthenticationToken) {
             String tokenValue = jwtAuthenticationToken.getToken().getTokenValue();
+            System.out.println("Bearer " + tokenValue);
+            if (tokenValue == null || !tokenValue.trim().isEmpty()) {
+                return;
+            }
             requestTemplate.header(authorization, "Bearer " + tokenValue);
         }
     }

@@ -1,0 +1,32 @@
+server:
+  port: 9999
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  servlet:
+    context-path: /api
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: notification-service-id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  application:
+    name: notification-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s

@@ -27,8 +27,8 @@ eureka:
 
 keycloak:
   realm: freelance-exchange
-  clientId: freelance-rest-api
-  clientSecret: FKeMnCc6yQWd6w2LK0mhte17Qv4IgNUU
+  clientId: admin-cli
+  clientSecret: x74BjLc9OlDiIo8ND3rDPg8Z5c2xgT5L
   urls:
     auth: http://localhost:8080/auth/
 

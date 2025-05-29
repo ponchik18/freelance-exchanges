@@ -27,6 +27,7 @@ public class Rating {
     private String review;
     private String fromUser;
     private String toUser;
+    private Long jobId;
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

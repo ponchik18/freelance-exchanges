@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.bsuir.constant.JobServiceConstant.Validation.Message.NOT_EMPTY;
 
@@ -20,4 +21,5 @@ public class JobRequest {
     private String description;
     @NotNull(message = NOT_EMPTY)
     private BigDecimal budget;
+    private List<Long> skills;
 }

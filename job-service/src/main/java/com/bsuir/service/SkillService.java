@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,13 +21,14 @@ public class SkillService {
     private final SkillFreelancerRepository skillFreelancerRepository;
     private final FreelancerFeignClient freelancerFeignClient;
     private final JobService jobService;
+
     public List<Skill> getAll() {
         return skillRepository.findAll();
     }
 
     public Skill getById(Long id) {
         return skillRepository.findById(id)
-                .orElseThrow(()-> new SkillNotFoundException(id));
+                .orElseThrow(() -> new SkillNotFoundException(id));
     }
 
     public Skill save(Skill skill) {
@@ -40,18 +42,21 @@ public class SkillService {
     public Skill addSkillToFreelancer(String freelancerId, Long skillId) {
         validateFreelancerExist(freelancerId);
         Skill skill = getById(skillId);
-        SkillFreelancer skillFreelancer = SkillFreelancer.builder()
-                .freelancerId(freelancerId)
-                .skill(skill)
-                .build();
+        if (skillFreelancerRepository.findByFreelancerIdAndSkillId(freelancerId, skillId)
+                .isEmpty()) {
+            SkillFreelancer skillFreelancer = SkillFreelancer.builder()
+                    .freelancerId(freelancerId)
+                    .skill(skill)
+                    .build();
 
-        skillFreelancerRepository.save(skillFreelancer);
+            skillFreelancerRepository.save(skillFreelancer);
+        }
         return skill;
     }
 
     public void deleteSkillFromFreelancer(String freelancerId, Long skillId) {
-         SkillFreelancer skillFreelancer = skillFreelancerRepository.findByFreelancerIdAndSkillId(freelancerId, skillId)
-                 .orElseThrow(() ->  new SkillForFreelancerNotFoundException(freelancerId, skillId));
+        SkillFreelancer skillFreelancer = skillFreelancerRepository.findByFreelancerIdAndSkillId(freelancerId, skillId)
+                .orElseThrow(() -> new SkillForFreelancerNotFoundException(freelancerId, skillId));
 
         skillFreelancerRepository.delete(skillFreelancer);
     }
@@ -64,7 +69,7 @@ public class SkillService {
         Skill skill = getById(skillId);
 
         Job job = jobService.getById(jobId);
-        if(!isSkillForJobExist(jobId, job)) {
+        if (!isSkillForJobExist(jobId, job)) {
             job.getSkills().add(skill);
             jobService.update(job);
         }
@@ -88,5 +93,15 @@ public class SkillService {
 
         job.setSkills(skills);
         jobService.update(job);
+    }
+
+    public List<Skill> getAllSkillForFreelancerNotSelected(String id) {
+        List<Skill> allSkill = getAll();
+        List<Long> freelancerSkillIds = getAllForFreelancer(id).stream()
+                .map(Skill::getId)
+                .toList();
+        return allSkill.stream()
+                .filter(skill -> !freelancerSkillIds.contains(skill.getId()))
+                .collect(Collectors.toList());
     }
 }

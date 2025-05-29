@@ -2,6 +2,7 @@ package com.bsuir.controller;
 
 import com.bsuir.dto.skill.SkillRequest;
 import com.bsuir.dto.skill.SkillResponse;
+import com.bsuir.dto.skill.SkillWithParentResponse;
 import com.bsuir.entity.Skill;
 import com.bsuir.mapper.SkillMapper;
 import com.bsuir.service.SkillService;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,11 +38,19 @@ public class SkillController {
     }
 
     @GetMapping
-    public List<SkillResponse> getAll() {
+    public List<SkillWithParentResponse> getAll() {
         List<Skill> skills = skillService.getAll();
-        return skills.stream()
-                .map(skillMapper::toResponse)
-                .toList();
+
+        return getSkillWithParentResponses(skills);
+    }
+
+    private static List<SkillWithParentResponse> getSkillWithParentResponses(List<Skill> skills) {
+        Map<Skill, List<Skill>> groupedSkills = skills.stream()
+                .filter(skill -> skill.getParent() != null)
+                .collect(Collectors.groupingBy(Skill::getParent));
+        return groupedSkills.entrySet().stream()
+                .map(entry -> new SkillWithParentResponse(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -63,6 +75,19 @@ public class SkillController {
         return skills.stream()
                 .map(skillMapper::toResponse)
                 .toList();
+    }
+
+    @GetMapping("/freelancer/for-smart-search/{id}")
+    public List<SkillWithParentResponse> getAllSkillForFreelancerForSmartSearch(@PathVariable String id) {
+        List<Skill> skills = skillService.getAllForFreelancer(id);
+
+        return getSkillWithParentResponses(skills);
+    }
+
+    @GetMapping("/not-selected/freelancer/{id}")
+    public List<SkillWithParentResponse> getAllSkillForFreelancerNotSelected(@PathVariable String id) {
+        List<Skill> skills = skillService.getAllSkillForFreelancerNotSelected(id);
+        return getSkillWithParentResponses(skills);
     }
 
     @PostMapping("/freelancer/{freelancerId}/{skillId}")

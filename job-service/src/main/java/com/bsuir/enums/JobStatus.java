@@ -1,5 +1,5 @@
 package com.bsuir.enums;
 
 public enum JobStatus {
-    CREATED, WORKED, FINISH, PAID
+    CREATED, WORKED, FINISH, PAID, CANCELLED
 }

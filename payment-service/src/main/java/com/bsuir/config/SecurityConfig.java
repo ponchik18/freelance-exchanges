@@ -23,12 +23,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     try {
                         req.requestMatchers("/actuator/health/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/proposals").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/proposals/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/skills").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/skills/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/jobs").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/jobs/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/payments/success/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/payments/balance/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/payments/create-payout").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/payments/transaction/history/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                                 .and()
@@ -59,6 +57,18 @@ public class SecurityConfig {
             web.ignoring().requestMatchers(
                     HttpMethod.DELETE,
                     "/public/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.POST,
+                    "/payments/create-payout"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.GET,
+                    "/payments/balance/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.GET,
+                    "/payments/transaction/history/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.PUT,

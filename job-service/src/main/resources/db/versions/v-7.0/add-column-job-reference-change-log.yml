@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-covering-letter-to-proposal-table
+      author: admin
+      changes:
+        - addColumn:
+            tableName: jobs
+            columns:
+              - column:
+                  name: job-reference
+                  type: TEXT
+      rollback:
+        - dropColumn:
+            columnName: job-reference
+            tableName: jobs

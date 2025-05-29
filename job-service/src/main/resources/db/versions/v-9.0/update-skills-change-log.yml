@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-parent-id-to-skills
+      author: admin
+      changes:
+        - addColumn:
+            tableName: skills
+            columns:
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseTableName: skills
+            baseColumnNames: parent_id
+            referencedTableName: skills
+            referencedColumnNames: id
+            constraintName: fk_skills_parent_id
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: skills
+            constraintName: fk_skills_parent_id
+        - dropColumn:
+            tableName: skills
+            columnName: parent_id

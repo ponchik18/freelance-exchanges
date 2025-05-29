@@ -1,9 +1,11 @@
 package com.bsuir.feign;
 
 import com.bsuir.config.FeignClientConfiguration;
+import com.bsuir.dto.UserResponse;
 import com.bsuir.dto.freelancer.FreelancerRequest;
-import com.bsuir.dto.freelancer.FreelancerResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,5 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface FreelancerFeignClient {
     @PostMapping
-    FreelancerResponse createFreelancer(@RequestBody FreelancerRequest freelancerRequest);
+    UserResponse createFreelancer(@RequestBody FreelancerRequest freelancerRequest);
+    @GetMapping("/{userId}")
+    UserResponse getFreelancerById(@PathVariable String userId);
 }

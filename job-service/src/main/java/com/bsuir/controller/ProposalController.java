@@ -23,8 +23,8 @@ import java.util.List;
 @RequestMapping("proposals")
 @RequiredArgsConstructor
 public class ProposalController {
-    private ProposalService proposalService;
-    private ProposalMapper proposalMapper;
+    private final ProposalService proposalService;
+    private final ProposalMapper proposalMapper;
 
     @GetMapping("{id}")
     public ProposalResponse getById(@PathVariable long id) {

@@ -11,6 +11,7 @@ import com.bsuir.webclient.CustomerWebClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -28,18 +29,21 @@ public class JobResponseMapper implements Function<Job, JobResponse> {
         CustomerResponse customerResponse = customerWebClient.getCustomerById(job.getCustomerId());
 
         List<Proposal> proposals = job.getProposals();
-        List<ProposalResponse> proposalResponses = proposals.stream()
+        List<ProposalResponse> proposalResponses = new ArrayList<>();
+        if(proposals != null) {
+            proposalResponses = proposals.stream()
                 .map(proposal -> {
                     ProposalResponse proposalResponse = proposalMapper.toDto(proposal);
                     proposalResponse.setFreelancer(freelancerFeignClient.getFreelancerById(proposal.getFreelancerId()));
                     return proposalResponse;
                 })
                 .toList();
+        }
 
         JobResponse jobResponse = jobMapper.toResponse(job);
         jobResponse.setCustomer(customerResponse);
         jobResponse.setProposals(proposalResponses);
-        jobResponse.setJobStatus(job.getStatus().name());
+        jobResponse.setJobStatus(job.getStatus());
 
         return jobResponse;
     }

@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class PayoutRequest {
     private Double total;
     private String currency;
+    private String receiver;
+    private String freelancerId;
 }

@@ -1,19 +1,32 @@
 package com.bsuir.controller;
 
+import com.bsuir.dto.freelancer.FreelancerBalance;
+import com.bsuir.dto.link.RedirectLinks;
 import com.bsuir.dto.payment.PaymentRequest;
 import com.bsuir.dto.payment.PayoutRequest;
+import com.bsuir.dto.transaction.TransactionHistory;
+import com.bsuir.entity.JobTransaction;
+import com.bsuir.entity.Transaction;
 import com.bsuir.service.PaypalService;
+import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("payments")
@@ -23,13 +36,22 @@ public class PaypalController {
     private final PaypalService paypalService;
 
     @PostMapping("/create-payment")
-    public ResponseEntity<String> createPayment(@RequestBody @Valid PaymentRequest paymentRequest) {
+    public RedirectLinks createPayment(@RequestBody @Valid PaymentRequest paymentRequest) {
         try {
             Payment payment = paypalService.createPayment(paymentRequest);
-            return ResponseEntity.ok(payment.getId());
+            for (Links links: payment.getLinks()) {
+                if (links.getRel().equals("approval_url")) {
+                    return RedirectLinks.builder()
+                            .url(links.getHref())
+                            .build();
+                }
+            }
         } catch (PayPalRESTException e) {
             throw new RuntimeException(e);
         }
+        return RedirectLinks.builder()
+                .url("http://localhost:3000/job-payment/cancel/%d".formatted(paymentRequest.getJobId()))
+                .build();
     }
 
     @PostMapping("/execute-payment")
@@ -43,11 +65,44 @@ public class PaypalController {
     }
 
     @PostMapping("/create-payout")
-    public ResponseEntity<String> createPayout(@RequestBody @Valid PayoutRequest payoutRequest) {
+    public void createPayout(@RequestBody @Valid PayoutRequest payoutRequest) {
         try {
-            return ResponseEntity.ok(paypalService.getPayout(payoutRequest).getBatchHeader().getPayoutBatchId());
+            paypalService.getPayout(payoutRequest).getBatchHeader().getPayoutBatchId();
         } catch (PayPalRESTException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping(value = "/success")
+    public RedirectView paymentSuccess(
+            @RequestParam("paymentId") String paymentId,
+            @RequestParam("PayerID") String payerId
+    ) throws PayPalRESTException {
+        JobTransaction jobTransaction = paypalService.executePayment(paymentId, payerId);
+        return new RedirectView("http://localhost:3000/job-payment/success/%d".formatted(jobTransaction.getJobId()));
+    }
+
+    @GetMapping(value = "/cancel", produces = MediaType.TEXT_HTML_VALUE)
+    public RedirectView paymentError(
+            @RequestParam("paymentId") String paymentId,
+            @RequestParam("PayerID") String payerId
+    ) {
+        Long jobId = paypalService.cancelPayment(paymentId, payerId);
+        return new RedirectView("http://localhost:3000/job-payment/cancel/%d".formatted(jobId));
+    }
+
+    @GetMapping("/balance/{freelancerId}")
+    public FreelancerBalance getBalance(@PathVariable String freelancerId) {
+        return paypalService.getBalance(freelancerId);
+    }
+
+    @GetMapping("/transaction/history/{freelancerId}")
+    public List<TransactionHistory> getTransactionHistory(@PathVariable String freelancerId) {
+        return paypalService.getTransactionHistory(freelancerId);
+    }
+
+    @GetMapping("/transaction/history/customer/{customerId}")
+    public List<JobTransaction> getCustomerTransactionHistory(@PathVariable String customerId) {
+        return paypalService.getCustomerTransactionHistory(customerId);
     }
 }

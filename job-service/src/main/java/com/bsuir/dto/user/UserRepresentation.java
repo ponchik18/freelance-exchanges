@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserRepresentation {
-    private String id;
+    private String userId;
 }

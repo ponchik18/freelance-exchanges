@@ -1,5 +1,6 @@
 package com.bsuir.service;
 
+import com.bsuir.entity.Freelancer;
 import com.bsuir.entity.Resume;
 import com.bsuir.exception.ResumeNotFoundException;
 import com.bsuir.repository.ResumeRepository;
@@ -18,9 +19,15 @@ public class ResumeService {
     }
 
     public Resume save(Resume resume) {
-        freelancerService.validateExistById(resume.getFreelancer().getId());
+        Freelancer freelancer = freelancerService.getById(resume.getFreelancer().getUserId());
 
-        return resumeRepository.save(resume);
+        Resume createdResume = resumeRepository.findByFreelancerId(freelancer.getId())
+                .orElseGet(()-> resume);
+        createdResume.setResumeContent(resume.getResumeContent());
+        createdResume.setResumeName(resume.getResumeName());
+        createdResume.getFreelancer().setId(freelancer.getId());
+
+        return resumeRepository.save(createdResume);
     }
 
     public void deleteById(long id) {

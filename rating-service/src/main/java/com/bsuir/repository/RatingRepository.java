@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     Page<Rating> findAllByToUser(String toUser, Pageable pageable);
-    Boolean existsByFromUserAndToUser(String fromUser, String toUser);
+    Boolean existsByFromUserAndToUserAndJobId(String fromUser, String toUser, Long jobId);
 }

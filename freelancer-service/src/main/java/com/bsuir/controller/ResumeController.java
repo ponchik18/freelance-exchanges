@@ -34,7 +34,7 @@ public class ResumeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResumeResponse createResume(@RequestBody @Valid ResumeRequest resumeRequest) {
+    public ResumeResponse createOrUpdateResume(@RequestBody @Valid ResumeRequest resumeRequest) {
         Resume resume = resumeMapper.toEntityWhenCreate(resumeRequest);
         Resume savedResume = resumeService.save(resume);
         return resumeMapper.toDto(savedResume);

@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -25,11 +26,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String customerId;
     private String freelancerId;
-    private Long jobId;
     private BigDecimal amount;
-    private TransactionStatus transactionStatus;
+    private String receiver;
     @CreationTimestamp
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

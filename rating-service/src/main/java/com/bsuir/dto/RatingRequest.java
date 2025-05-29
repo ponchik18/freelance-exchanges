@@ -25,4 +25,5 @@ public class RatingRequest {
     private String fromUser;
     @NotBlank(message = NOT_EMPTY)
     private String toUser;
+    private Long jobId;
 }
