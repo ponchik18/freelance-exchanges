@@ -18,7 +18,7 @@ public interface ResumeMapper {
     ResumeResponse toDto(Resume resume);
 
     List<ResumeResponse> toListOfDto(List<Resume> resumeList);
-    @Mapping(target = "freelancer.id", source = "freelancerId")
+    @Mapping(target = "freelancer.userId", source = "freelancerId")
     Resume toEntityWhenCreate(ResumeRequest resumeRequest);
     Resume toEntityWhenUpdate(ResumeUpdateRequest resumeUpdateRequest);
 }

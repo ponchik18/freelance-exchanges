@@ -29,6 +29,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/skills/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/jobs").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/jobs/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/jobs/pay/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/jobs/finish/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                                 .and()
@@ -55,6 +57,14 @@ public class SecurityConfig {
             web.ignoring().requestMatchers(
                     HttpMethod.GET,
                     "/public/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.PUT,
+                    "/jobs/pay/**"
+            );
+            web.ignoring().requestMatchers(
+                    HttpMethod.PUT,
+                    "/jobs/finish/**"
             );
             web.ignoring().requestMatchers(
                     HttpMethod.DELETE,

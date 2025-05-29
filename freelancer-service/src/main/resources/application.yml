@@ -19,7 +19,7 @@ spring:
     timeout-per-shutdown-phase: 15s
   datasource:
     password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=freelance_service
+    url: jdbc:postgresql://localhost:5432/freelance_service
     username: admin
   jpa:
     hibernate:
@@ -34,7 +34,7 @@ spring:
     change-log: classpath:db/main-change-log.yml
     user: admin
     password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=freelance_service
+    url: jdbc:postgresql://localhost:5432/freelance_service
 
 eureka:
   client:

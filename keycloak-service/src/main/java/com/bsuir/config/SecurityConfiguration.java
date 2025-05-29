@@ -1,7 +1,6 @@
 package com.bsuir.config;
 
 
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
@@ -56,15 +55,13 @@ public class SecurityConfiguration {
 
         httpSecurity.authorizeHttpRequests(req -> {
             try {
-                req.requestMatchers("/v3/api-docs/**", "/configuration/**", "/swagger-ui/**",
-                        "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**").permitAll()
-                        .requestMatchers( "/users").permitAll()
+                req
+                        .requestMatchers( HttpMethod.POST, "/users").permitAll()
                         .anyRequest().authenticated()
                         .and()
                         .oauth2ResourceServer()
                         .jwt()
                         .jwtAuthenticationConverter(jwtAuthConverter);
-
 
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -1,23 +1,13 @@
 package com.bsuir.controller;
 
-import org.keycloak.KeycloakSecurityContext;
 import com.bsuir.dto.UserCreateRequest;
+import com.bsuir.dto.UserResponse;
 import com.bsuir.service.KeycloakService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.representations.AccessToken;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.Authentication;
-
-import java.security.Principal;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("users")
@@ -27,9 +17,11 @@ public class KeycloakController {
     private final KeycloakService keycloakService;
 
     @GetMapping
-    public UserRepresentation getUser(Principal principal) {
-        String username = principal.getName();
-        return keycloakService.getUserByUsername(username);
+    public UserResponse getUser(JwtAuthenticationToken authenticationToken) {
+        String id = authenticationToken
+                .getToken()
+                .getClaimAsString("sub");
+        return keycloakService.getUserByEmail(id);
     }
 
     @PostMapping

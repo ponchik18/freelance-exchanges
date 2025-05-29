@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -35,7 +36,9 @@ public class WebClientConfig {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication instanceof JwtAuthenticationToken jwtAuthenticationToken) {
                 String tokenValue = jwtAuthenticationToken.getToken().getTokenValue();
-                clientRequest.headers().add(authorization, "Bearer " + tokenValue);
+                clientRequest = ClientRequest.from(clientRequest)
+                        .header(authorization, "Bearer " + tokenValue)
+                        .build();
             }
             return next.exchange(clientRequest);
         };

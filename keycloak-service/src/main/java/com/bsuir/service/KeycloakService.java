@@ -1,8 +1,10 @@
 package com.bsuir.service;
 
 import com.bsuir.dto.UserCreateRequest;
+import com.bsuir.dto.UserResponse;
 import com.bsuir.dto.customer.CustomerCreateRequest;
 import com.bsuir.dto.freelancer.FreelancerRequest;
+import com.bsuir.exception.ResourceNotFoundException;
 import com.bsuir.feign.FreelancerFeignClient;
 import com.bsuir.webclient.CustomerWebClient;
 import lombok.RequiredArgsConstructor;
@@ -57,9 +59,35 @@ public class KeycloakService {
         return user;
     }
 
-    public UserRepresentation getUserByUsername(String username) {
-        return getUsersResource().search(username)
-                .get(0);
+    public UserResponse getUserByEmail(String id) {
+        UserRepresentation userRepresentation =  getUsersResource().get(id).toRepresentation();
+        UserResponse userResponse = null;
+
+        if(userRepresentation.getId().equals("eba9946e-7127-40c9-a415-75fca5d77730")) {
+            return UserResponse.builder()
+                    .createdTimestamp(userRepresentation.getCreatedTimestamp())
+                    .lastName(userRepresentation.getLastName())
+                    .firstName(userRepresentation.getFirstName())
+                    .email(userRepresentation.getEmail())
+                    .userId(userRepresentation.getId())
+                    .role("ADMIN")
+                    .profilePicture("https://cdn.vectorstock.com/i/2000v/34/29/man-with-inscription-admin-icon-outline-style-vector-30713429.avif")
+                    .id(1L)
+                    .build();
+        }
+        try {
+            userResponse = freelancerFeignClient.getFreelancerById(userRepresentation.getId());
+            userResponse.setRole("FREELANCER");
+        } catch (Exception exception) {
+            try {
+                userResponse = customerWebClient.getCustomerById(userRepresentation.getId());
+                userResponse.setRole("CUSTOMER");
+            } catch (Exception exception1) {
+                throw new ResourceNotFoundException("Пользователь не найден!");
+            }
+        }
+        userResponse.setCreatedTimestamp(userRepresentation.getCreatedTimestamp());
+        return userResponse;
     }
 
     public UserRepresentation createUser(UserCreateRequest userCreateRequest) {
@@ -69,13 +97,15 @@ public class KeycloakService {
 
             Response response = getUsersResource().create(user);
             if (response.getStatus() != 201) {
-                return null;
+                throw new RuntimeException("Ошибка созадния пользователя!");
             }
             userId = getUserId(response);
             updateRole(userCreateRequest, userId);
             return getUserById(userId);
         } catch (Exception exception) {
-            rollbackUserCreation(userId);
+            if(userId != null ) {
+                rollbackUserCreation(userId);
+            }
             throw new RuntimeException(exception);
         }
     }

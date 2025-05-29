@@ -1,7 +1,7 @@
 package com.bsuir.dto.proposal;
 
 import com.bsuir.dto.freelancer.FreelancerResponse;
-import com.bsuir.dto.job.JobForFreelancerResponse;
+import com.bsuir.dto.job.JobSimpleResponse;
 import com.bsuir.enums.ProposalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +22,5 @@ public class ProposalForFreelancerResponse {
     private LocalDateTime createdAt;
     private ProposalStatus status;
     private String coveringLetter;
-    private JobForFreelancerResponse job;
+    private JobSimpleResponse job;
 }

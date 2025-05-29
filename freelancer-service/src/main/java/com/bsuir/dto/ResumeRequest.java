@@ -17,5 +17,5 @@ public class ResumeRequest {
     @NotBlank(message = NOT_EMPTY)
     private String resumeContent;
     @NotNull(message = NOT_EMPTY)
-    private Long freelancerId;
+    private String freelancerId;
 }

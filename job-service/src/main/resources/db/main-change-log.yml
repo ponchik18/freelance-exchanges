@@ -53,3 +53,27 @@ databaseChangeLog:
       changes:
         - tagDatabase:
             tag: v-6.0
+  - include:
+      file: db/versions/v-7.0/add-column-job-reference-change-log.yml
+  - changeSet:
+      id: job-reference-add-table
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-7.0
+  - include:
+      file: db/versions/v-8.0/rename-column-job-reference-to-job_reference-change-log.yml
+  - changeSet:
+      id: job-rename-reference-add-table
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-8.0
+  - include:
+      file: db/versions/v-9.0/update-skills-change-log.yml
+  - changeSet:
+      id: skill-add-parent-column
+      author: admin
+      changes:
+        - tagDatabase:
+            tag: v-9.0

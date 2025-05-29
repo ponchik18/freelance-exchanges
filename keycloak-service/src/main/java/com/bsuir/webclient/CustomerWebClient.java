@@ -1,5 +1,6 @@
 package com.bsuir.webclient;
 
+import com.bsuir.dto.UserResponse;
 import com.bsuir.dto.customer.CustomerCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +23,16 @@ public class CustomerWebClient {
                 .onStatus(HttpStatusCode::is4xxClientError, WebClientErrorHandler::handle4xxError)
                 .onStatus(HttpStatusCode::is5xxServerError, WebClientErrorHandler::handle5xxError)
                 .bodyToMono(Object.class)
+                .block();
+    }
+
+    public UserResponse getCustomerById(String id) {
+        return webClient.get()
+                .uri("/{id}", id)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, WebClientErrorHandler::handle4xxError)
+                .onStatus(HttpStatusCode::is5xxServerError, WebClientErrorHandler::handle5xxError)
+                .bodyToMono(UserResponse.class)
                 .block();
     }
 }

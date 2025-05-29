@@ -19,22 +19,22 @@ spring:
     timeout-per-shutdown-phase: 15s
   datasource:
     password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment_service
+    url: jdbc:postgresql://localhost:5432/payment_service
     username: admin
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-  liquibase:
-    enabled: true
-    change-log: classpath:db/main-change-log.yml
-    user: admin
-    password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment_service
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:db/main-change-log.yml
+#    user: admin
+#    password: admin
+#    url: jdbc:postgresql://localhost:5432/payment_service
 
 eureka:
   client:
@@ -50,3 +50,8 @@ jwt:
         preferred_username
       resource-id:
         freelance-rest-api
+
+paypal:
+  client-id: ASDtv_bzjGpvU2yzuDvSYQdLWXZa7uEY51mwydtTk0eSuXbPq9vkYdqbPUVQuNkZ9SHTcRnfKUkw__8R
+  client-secret: EHqtIsB2P3QEY1mvS86qTd8kPEmgHJLxelhoLAYfGIBoENrW6MkILdT56j0HPolElNXd46nB9qXnsoL7
+  mode: sandbox

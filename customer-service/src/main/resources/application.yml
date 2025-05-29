@@ -20,13 +20,13 @@ spring:
   r2dbc:
     username: admin
     password: admin
-    url: r2dbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
+    url: r2dbc:postgresql://localhost:5432/customer_service
   liquibase:
     enabled: true
     change-log: classpath:db/main-change-log.yml
     user: admin
     password: admin
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer_service
+    url: jdbc:postgresql://localhost:5432/customer_service
   main:
     allow-bean-definition-overriding: true
 eureka:

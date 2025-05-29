@@ -26,7 +26,10 @@ public class RatingService {
 
     public Rating save(RatingRequest ratingRequest) {
         Rating rating = ratingMapper.toEntity(ratingRequest);
-        if(ratingRepository.existsByFromUserAndToUser(rating.getFromUser(), ratingRequest.getToUser())) {
+        if(ratingRepository.existsByFromUserAndToUserAndJobId(
+                rating.getFromUser(),
+                ratingRequest.getToUser(),
+                rating.getJobId())) {
             throw new DuplicateRatingException(rating.getFromUser(), ratingRequest.getToUser());
         }
 

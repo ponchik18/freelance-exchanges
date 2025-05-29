@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-updated-at-column
+      author: admin
+      changes:
+        - addColumn:
+            tableName: ratings
+            columns:
+              - column:
+                  name: job_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+      rollback:
+        - dropColumn:
+            tableName: ratings
+            columnName: job_id

@@ -22,8 +22,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     try {
                         req.requestMatchers("/actuator/health/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/freelancers/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/resumes/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/ratings/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                                 .and()

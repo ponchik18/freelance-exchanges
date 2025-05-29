@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProposalRepository extends JpaRepository<Proposal, Long> {
     List<Proposal> findAllByFreelancerId(String freelancerId);
+    boolean existsByFreelancerIdAndJobId(String freelancerId, Long jobId);
 }

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: rename-column-job-reference-to-job_reference
+      author: admin
+      changes:
+        - renameColumn:
+            tableName: jobs
+            oldColumnName: job-reference
+            newColumnName: job_reference
+      rollback:
+        - renameColumn:
+            tableName: jobs
+            oldColumnName: job_reference
+            newColumnName: job-reference

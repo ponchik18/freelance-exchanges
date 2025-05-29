@@ -7,20 +7,20 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          gateway:
-            provider: keycloak
-            client-id: freelance-rest-api
-            client-secret: FKeMnCc6yQWd6w2LK0mhte17Qv4IgNUU
-            authorization-grant-type: authorization_code
-            scope:
-              - openid
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          gateway:
+#            provider: keycloak
+#            client-id: freelance-rest-api
+#            client-secret: FKeMnCc6yQWd6w2LK0mhte17Qv4IgNUU
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - openid
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8080/auth/realms/freelance-exchange
   main:
     web-application-type:
       reactive
@@ -29,6 +29,17 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
       routes:
         - id: freelancer-service
           uri: lb://FREELANCER-SERVICE
@@ -42,6 +53,10 @@ spring:
           uri: lb://RATING-SERVICE
           predicates:
             - Path=/api/ratings/**
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/api/chats/**
         - id: keycloak-service
           uri: lb://KEYCLOAK-SERVICE
           predicates:
@@ -50,6 +65,13 @@ spring:
           uri: lb://JOB-SERVICE
           predicates:
             - Path=/api/proposals/**, /api/skills/**, /api/jobs/**
+        - id: payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payments/**
+        - id: storage-service
+          uri: lb://STORAGE-SERVICE
+          predicates:
+            - Path=/api/storage/**
       default-filters:
-        - name: TokenRelay
         - name: SaveSession
